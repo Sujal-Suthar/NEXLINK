@@ -1,0 +1,1212 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080611">
+
+    <title>Login | NEXLINK</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #080611;
+            --purple: #9b5cff;
+            --violet: #713cff;
+            --cyan: #57e7ff;
+            --white: #f8f6ff;
+            --muted: #aaa3bd;
+            --glass: rgba(20, 15, 37, .78);
+            --border: rgba(190, 155, 255, .18);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--white);
+            font-family: "DM Sans", sans-serif;
+            overflow-x: hidden;
+        }
+
+        button, input {
+            font: inherit;
+        }
+
+        /* BACKGROUND */
+
+        .universe {
+            position: fixed;
+            inset: 0;
+            z-index: -5;
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse at 50% 45%, #20113d 0%, transparent 48%),
+                radial-gradient(ellipse at 10% 10%, #170c30 0%, transparent 45%),
+                radial-gradient(ellipse at 90% 90%, #101c35 0%, transparent 40%),
+                #080611;
+        }
+
+        .grid-bg {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(151, 113, 255, .045) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(151, 113, 255, .045) 1px, transparent 1px);
+            background-size: 55px 55px;
+            mask-image: radial-gradient(ellipse at center, black 15%, transparent 78%);
+            animation: gridMove 25s linear infinite;
+        }
+
+        @keyframes gridMove {
+            to { background-position: 55px 55px; }
+        }
+
+        .aurora {
+            position: absolute;
+            width: 650px;
+            height: 650px;
+            border-radius: 50%;
+            filter: blur(110px);
+            opacity: .22;
+            pointer-events: none;
+            animation: auroraFloat 13s ease-in-out infinite alternate;
+        }
+
+        .aurora.one {
+            background: #702cff;
+            top: -320px;
+            left: -150px;
+        }
+
+        .aurora.two {
+            background: #1b8fff;
+            bottom: -400px;
+            right: -120px;
+            animation-delay: -5s;
+        }
+
+        .aurora.three {
+            background: #d34cff;
+            top: 35%;
+            left: 45%;
+            width: 300px;
+            height: 300px;
+            opacity: .12;
+            animation-delay: -8s;
+        }
+
+        @keyframes auroraFloat {
+            from { transform: translate(-35px, -20px) scale(.85); }
+            to { transform: translate(70px, 60px) scale(1.2); }
+        }
+
+        #particles {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .cursor-glow {
+            position: fixed;
+            width: 360px;
+            height: 360px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(142, 85, 255, .13), transparent 68%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* NAVBAR */
+
+        .topbar {
+            position: relative;
+            z-index: 5;
+            height: 88px;
+            padding: 0 2%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: topReveal 1s ease both;
+        }
+
+        @keyframes topReveal {
+            from { opacity: 0; transform: translateY(-25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 23px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a36aff, #6133ed);
+            box-shadow: 0 0 25px rgba(137, 83, 255, .45);
+        }
+
+        .brand-name {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -.8px;
+        }
+
+        .brand-name span {
+            color: #ad7aff;
+        }
+
+        .top-right {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .top-right a {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .top-right a:hover {
+            color: var(--cyan);
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #62ffc1;
+            box-shadow: 0 0 12px #62ffc1;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: .3; }
+        }
+
+        /* MAIN */
+
+        .main {
+            min-height: calc(100vh - 88px);
+            padding: 28px 20px 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1200px;
+        }
+
+        .experience {
+            width: min(1100px, 100%);
+            display: grid;
+            grid-template-columns: 1fr 440px;
+            align-items: center;
+            gap: 50px;
+        }
+
+        /* PORTAL */
+
+        .visual-section {
+            position: relative;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: visualReveal 1.2s .2s ease both;
+        }
+
+        @keyframes visualReveal {
+            from { opacity: 0; transform: translateX(-45px) scale(.95); }
+            to { opacity: 1; transform: translateX(0) scale(1); }
+        }
+
+        .portal {
+            width: 390px;
+            height: 390px;
+            position: relative;
+            display: grid;
+            place-items: center;
+            transform-style: preserve-3d;
+            transition: transform .2s ease-out;
+        }
+
+        .portal-core {
+            width: 150px;
+            height: 150px;
+            position: relative;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle at 35% 30%, #f5d7ff 0%, #bd80ff 9%, #7439e8 35%, #25104c 70%, #090612 100%);
+            box-shadow:
+                0 0 35px rgba(164, 100, 255, .9),
+                0 0 90px rgba(122, 58, 255, .6),
+                inset -12px -12px 35px rgba(0, 0, 0, .65),
+                inset 8px 8px 25px rgba(255, 255, 255, .25);
+            animation: corePulse 4s ease-in-out infinite;
+            z-index: 3;
+        }
+
+        .portal-core::before {
+            content: "";
+            position: absolute;
+            inset: 14px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,.4);
+            box-shadow: inset 0 0 20px rgba(255,255,255,.2);
+        }
+
+        .portal-core::after {
+            content: "∞";
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            color: white;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 68px;
+            text-shadow: 0 0 25px #fff, 0 0 45px #c79aff;
+        }
+
+        @keyframes corePulse {
+            0%, 100% { transform: scale(.94); filter: brightness(.9); }
+            50% { transform: scale(1.07); filter: brightness(1.25); }
+        }
+
+        .ring {
+            position: absolute;
+            border: 1px solid rgba(172, 127, 255, .55);
+            border-radius: 50%;
+        }
+
+        .ring.one {
+            width: 230px;
+            height: 230px;
+            border-top-color: #d6b8ff;
+            border-bottom-color: transparent;
+            animation: rotateOne 8s linear infinite;
+        }
+
+        .ring.two {
+            width: 310px;
+            height: 180px;
+            border-left-color: #5deaff;
+            border-right-color: transparent;
+            transform: rotateX(68deg) rotateZ(20deg);
+            animation: rotateTwo 9s linear infinite;
+        }
+
+        .ring.three {
+            width: 360px;
+            height: 360px;
+            border-color: rgba(128, 84, 255, .2);
+            border-right-color: #a777ff;
+            border-left-color: transparent;
+            animation: rotateOne 17s linear infinite reverse;
+        }
+
+        .ring.four {
+            width: 400px;
+            height: 190px;
+            border-color: rgba(90, 220, 255, .35);
+            transform: rotateX(72deg) rotateZ(-25deg);
+            animation: rotateTwo 13s linear infinite reverse;
+        }
+
+        @keyframes rotateOne {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes rotateTwo {
+            from { transform: rotateX(68deg) rotateZ(0deg); }
+            to { transform: rotateX(68deg) rotateZ(360deg); }
+        }
+
+        .orbit-dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--cyan);
+            box-shadow: 0 0 18px var(--cyan);
+            top: 50%;
+            left: -5px;
+        }
+
+        .portal-caption {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            transform: translateY(30px);
+        }
+
+        .portal-caption h1 {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(34px, 4vw, 48px);
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .portal-caption h1 span {
+            background: linear-gradient(90deg, #c39aff, #65eaff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .portal-caption p {
+            margin-top: 12px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .floating-tag {
+            position: absolute;
+            padding: 12px 16px;
+            background: rgba(23, 17, 43, .72);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            backdrop-filter: blur(14px);
+            font-size: 12px;
+            color: #e5d9ff;
+            animation: tagFloat 4s ease-in-out infinite;
+        }
+
+        .floating-tag strong {
+            display: block;
+            color: white;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .tag-one {
+            top: 90px;
+            left: 0;
+        }
+
+        .tag-two {
+            top: 150px;
+            right: -5px;
+            animation-delay: -1.7s;
+        }
+
+        .tag-three {
+            bottom: 145px;
+            left: 10px;
+            animation-delay: -2.5s;
+        }
+
+        @keyframes tagFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-13px); }
+        }
+
+        /* LOGIN CARD */
+
+        .form-section {
+            position: relative;
+            animation: formReveal 1s .35s ease both;
+        }
+
+        @keyframes formReveal {
+            from { opacity: 0; transform: translateY(35px) rotateX(5deg); }
+            to { opacity: 1; transform: translateY(0) rotateX(0); }
+        }
+
+        .form-card {
+            position: relative;
+            padding: 42px 34px;
+            border-radius: 26px;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            box-shadow:
+                0 30px 100px rgba(0,0,0,.4),
+                0 0 50px rgba(119, 65, 255, .09),
+                inset 0 1px 0 rgba(255,255,255,.09);
+            overflow: hidden;
+            transition: border-color .35s, box-shadow .35s;
+        }
+
+        .form-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #d6baff, transparent);
+            animation: borderScan 5s ease-in-out infinite;
+        }
+
+        @keyframes borderScan {
+            0%, 20% { left: -100%; }
+            75%, 100% { left: 150%; }
+        }
+
+        .form-card:hover {
+            border-color: rgba(177, 135, 255, .4);
+            box-shadow: 0 30px 100px rgba(0,0,0,.4),
+                        0 0 55px rgba(119,65,255,.14);
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 11px;
+            border-radius: 50px;
+            background: rgba(139, 83, 255, .13);
+            border: 1px solid rgba(172, 127, 255, .22);
+            color: #c6a7ff;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            font-weight: 800;
+        }
+
+        .eyebrow span {
+            width: 6px;
+            height: 6px;
+            background: #a87aff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #a87aff;
+        }
+
+        .form-heading {
+            margin-top: 22px;
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 38px;
+            letter-spacing: -1.5px;
+            line-height: 1.15;
+        }
+
+        .form-heading span {
+            background: linear-gradient(90deg, #c29aff, #6eeaff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .form-subtitle {
+            margin-top: 12px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* FLASH MESSAGES */
+
+        .flash-container {
+            margin-top: 20px;
+            display: grid;
+            gap: 9px;
+        }
+
+        .flash-message {
+            padding: 12px 14px;
+            border-radius: 11px;
+            font-size: 12px;
+            line-height: 1.5;
+            border: 1px solid rgba(255, 255, 255, .12);
+            background: rgba(255, 255, 255, .05);
+        }
+
+        .flash-message.success {
+            color: #8dffd1;
+            border-color: rgba(81, 255, 180, .25);
+            background: rgba(45, 210, 139, .08);
+        }
+
+        .flash-message.danger,
+        .flash-message.error {
+            color: #ff9eae;
+            border-color: rgba(255, 105, 130, .25);
+            background: rgba(255, 75, 105, .08);
+        }
+
+        .flash-message.warning {
+            color: #ffda92;
+            border-color: rgba(255, 190, 75, .25);
+            background: rgba(255, 190, 75, .08);
+        }
+
+        /* FORM INPUTS */
+
+        .login-form {
+            margin-top: 30px;
+        }
+
+        .field {
+            margin-bottom: 21px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #e4dff0;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-wrap input {
+            width: 100%;
+            height: 53px;
+            padding: 0 15px;
+            outline: none;
+            color: white;
+            font-size: 13px;
+            background: rgba(255,255,255,.035);
+            border: 1px solid rgba(194, 169, 255, .15);
+            border-radius: 12px;
+            transition: .3s ease;
+        }
+
+        .input-wrap input::placeholder {
+            color: #777087;
+        }
+
+        .input-wrap input:hover {
+            border-color: rgba(174, 134, 255, .4);
+            background: rgba(255,255,255,.055);
+        }
+
+        .input-wrap input:focus {
+            border-color: #a978ff;
+            background: rgba(125, 71, 255, .08);
+            box-shadow: 0 0 0 3px rgba(142, 88, 255, .12),
+                        0 0 24px rgba(142, 88, 255, .12);
+        }
+
+        .password-input {
+            padding-right: 70px !important;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 0;
+            background: transparent;
+            color: #a99dbd;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 8px;
+        }
+
+        .toggle-password:hover {
+            color: var(--cyan);
+        }
+
+        /* SUBMIT BUTTON */
+
+        .submit-btn {
+            position: relative;
+            width: 100%;
+            height: 55px;
+            margin-top: 9px;
+            border: none;
+            border-radius: 13px;
+            overflow: hidden;
+            cursor: pointer;
+            color: white;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: .5px;
+            background: linear-gradient(110deg, #8c4cff, #6d38e8 45%, #397eea);
+            box-shadow: 0 8px 30px rgba(117, 66, 255, .28);
+            transition: transform .25s, box-shadow .25s;
+        }
+
+        .submit-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -110%;
+            width: 70%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.3), transparent);
+            transform: skewX(-20deg);
+            transition: left .65s;
+        }
+
+        .submit-btn:hover::before {
+            left: 150%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 13px 40px rgba(117, 66, 255, .48);
+        }
+
+        .submit-btn:active {
+            transform: scale(.985);
+        }
+
+        .submit-btn:disabled {
+            opacity: .7;
+            cursor: wait;
+            transform: none;
+        }
+
+        .button-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #938ba3;
+            font-size: 11px;
+            line-height: 1.8;
+        }
+
+        .form-footer a {
+            color: #c7a6ff;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            color: var(--cyan);
+        }
+
+        .security-note {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            color: #7d758e;
+            font-size: 10px;
+        }
+
+        .security-note svg {
+            width: 13px;
+            height: 13px;
+            stroke: #9e83d8;
+        }
+
+        /* BOTTOM */
+
+        .bottom-note {
+            position: absolute;
+            bottom: 22px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: #686178;
+            font-size: 10px;
+            letter-spacing: 1px;
+        }
+
+        .bottom-note span {
+            color: #a78aff;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 950px) {
+            .experience {
+                grid-template-columns: 1fr;
+                max-width: 480px;
+                gap: 0;
+            }
+
+            .visual-section {
+                min-height: 420px;
+            }
+
+            .portal {
+                transform: scale(.8);
+            }
+
+            .portal-caption {
+                bottom: 0;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .topbar {
+                padding: 0 20px;
+                height: 72px;
+            }
+
+            .brand-name { font-size: 19px; }
+            .brand-icon { width: 37px; height: 37px; }
+
+            .top-right {
+                font-size: 11px;
+                gap: 6px;
+            }
+
+            .main {
+                padding: 12px 15px 65px;
+            }
+
+            .visual-section {
+                min-height: 330px;
+            }
+
+            .portal {
+                transform: scale(.65);
+                margin-top: -20px;
+            }
+
+            .portal-caption {
+                bottom: -5px;
+            }
+
+            .portal-caption h1 {
+                font-size: 34px;
+            }
+
+            .portal-caption p {
+                font-size: 12px;
+            }
+
+            .floating-tag {
+                padding: 9px 11px;
+                font-size: 10px;
+            }
+
+            .tag-one { top: 28px; }
+            .tag-two { top: 70px; }
+            .tag-three { bottom: 75px; }
+
+            .form-card {
+                padding: 32px 22px;
+                border-radius: 21px;
+            }
+
+            .form-heading { font-size: 33px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- BACKGROUND -->
+    <div class="universe">
+        <div class="grid-bg"></div>
+        <div class="aurora one"></div>
+        <div class="aurora two"></div>
+        <div class="aurora three"></div>
+        <canvas id="particles"></canvas>
+    </div>
+
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <!-- NAVIGATION -->
+    <header class="topbar">
+
+        <a href="{{ url_for('auth.login') }}" class="brand">
+            <div class="brand-icon">N</div>
+            <div class="brand-name">NEX<span>LINK</span></div>
+        </a>
+
+        <div class="top-right">
+            <span class="status-dot"></span>
+            New to NEXLINK?
+            <a href="{{ url_for('auth.register') }}">Create account →</a>
+        </div>
+
+    </header>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <div class="experience">
+
+            <!-- LEFT VISUAL -->
+            <section class="visual-section">
+
+                <div class="floating-tag tag-one">
+                    YOUR WORKSPACE
+                    <strong>Everything in one place</strong>
+                </div>
+
+                <div class="floating-tag tag-two">
+                    SMART ANALYTICS
+                    <strong>Track every connection</strong>
+                </div>
+
+                <div class="floating-tag tag-three">
+                    LINK INTELLIGENCE
+                    <strong>Make every link count</strong>
+                </div>
+
+                <div class="portal" id="portal">
+
+                    <div class="ring four">
+                        <span class="orbit-dot"></span>
+                    </div>
+
+                    <div class="ring three"></div>
+
+                    <div class="ring two">
+                        <span class="orbit-dot"></span>
+                    </div>
+
+                    <div class="ring one"></div>
+
+                    <div class="portal-core"></div>
+
+                </div>
+
+                <div class="portal-caption">
+                    <h1>Welcome to <span>NEXLINK.</span></h1>
+                    <p>
+                        Your links. Your insights. Your control.<br>
+                        Everything starts with one connection.
+                    </p>
+                </div>
+
+            </section>
+
+
+            <!-- LOGIN FORM -->
+            <section class="form-section">
+
+                <div class="form-card" id="formCard">
+
+                    <div class="eyebrow">
+                        <span></span>
+                        SECURE ACCESS PORTAL
+                    </div>
+
+                    <h2 class="form-heading">
+                        Welcome<br>
+                        <span>Back.</span>
+                    </h2>
+
+                    <p class="form-subtitle">
+                        Sign in to access your NEXLINK dashboard
+                        and manage your digital connections.
+                    </p>
+
+
+                    <!-- FLASH MESSAGES -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            <div class="flash-container">
+                                {% for category, message in messages %}
+                                    <div class="flash-message {{ category }}">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+
+
+                    <!-- LOGIN FORM -->
+                    <form
+                        method="POST" autocomplete="off"
+                        action="{{ url_for('auth.login') }}"
+                        class="login-form"
+                        id="loginForm"
+                    >
+
+                        <div class="field">
+                            <label for="email">Email Address</label>
+
+                            <div class="input-wrap">
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    placeholder="you@example.com"
+                                    autocomplete="off"
+                                    required
+                                    autofocus
+                                >
+                            </div>
+                        </div>
+
+
+                        <div class="field">
+                            <label for="password">Password</label>
+
+                            <div class="input-wrap">
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    class="password-input"
+                                    placeholder="Enter your password"
+                                    autocomplete="new-password"
+                                    required
+                                >
+
+                                <button
+                                    type="button"
+                                    class="toggle-password"
+                                    id="togglePassword"
+                                >
+                                    SHOW
+                                </button>
+                            </div>
+                        </div>
+
+
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            <span class="button-content">
+                                SIGN IN TO NEXLINK. &nbsp; →
+                            </span>
+                        </button>
+
+                    </form>
+
+
+                    <div class="form-footer">
+                        Don't have an account?
+                        <a href="{{ url_for('auth.register') }}">
+                            Create one here
+                        </a>
+                    </div>
+
+                    <div class="security-note">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/>
+                            <path d="m9 12 2 2 4-4"/>
+                        </svg>
+                        Your account details are handled securely.
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+        <div class="bottom-note">
+            POWERED BY <span>NEXLINK</span> &nbsp; · &nbsp; CONNECT BEYOND LIMITS
+        </div>
+
+    </main>
+
+
+    <script>
+        // ==========================================
+        // 1. PARTICLE UNIVERSE
+        // ==========================================
+
+        const canvas = document.getElementById("particles");
+        const ctx = canvas.getContext("2d");
+
+        let particles = [];
+        let width = 0;
+        let height = 0;
+
+        function resizeCanvas() {
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+            width = window.innerWidth;
+            height = window.innerHeight;
+
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+
+            canvas.style.width = width + "px";
+            canvas.style.height = height + "px";
+
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            createParticles();
+        }
+
+        function createParticles() {
+            const count = Math.min(
+                Math.floor((width * height) / 11000),
+                110
+            );
+
+            particles = [];
+
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    size: Math.random() * 1.8 + .4,
+                    speedX: (Math.random() - .5) * .35,
+                    speedY: (Math.random() - .5) * .35,
+                    alpha: Math.random() * .6 + .15
+                });
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+
+            particles.forEach((p, index) => {
+                p.x += p.speedX;
+                p.y += p.speedY;
+
+                if (p.x < 0 || p.x > width) p.speedX *= -1;
+                if (p.y < 0 || p.y > height) p.speedY *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(190, 155, 255, ${p.alpha})`;
+                ctx.fill();
+
+                for (let j = index + 1; j < particles.length; j++) {
+                    const other = particles[j];
+
+                    const dx = p.x - other.x;
+                    const dy = p.y - other.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 105) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(other.x, other.y);
+                        ctx.strokeStyle =
+                            `rgba(150, 110, 255, ${.10 * (1 - distance / 105)})`;
+                        ctx.lineWidth = .6;
+                        ctx.stroke();
+                    }
+                }
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+
+        resizeCanvas();
+        animateParticles();
+
+        window.addEventListener("resize", resizeCanvas);
+
+
+        // ==========================================
+        // 2. CURSOR LIGHT
+        // ==========================================
+
+        const cursorGlow = document.getElementById("cursorGlow");
+
+        window.addEventListener("mousemove", (e) => {
+            cursorGlow.style.left = e.clientX + "px";
+            cursorGlow.style.top = e.clientY + "px";
+        });
+
+
+        // ==========================================
+        // 3. PORTAL 3D MOVEMENT
+        // ==========================================
+
+        const portal = document.getElementById("portal");
+
+        if (window.matchMedia("(pointer: fine)").matches) {
+            window.addEventListener("mousemove", (e) => {
+                const x = (e.clientX / window.innerWidth - .5);
+                const y = (e.clientY / window.innerHeight - .5);
+
+                portal.style.transform =
+                    `rotateY(${x * 13}deg) rotateX(${-y * 13}deg)`;
+            });
+
+            document.addEventListener("mouseleave", () => {
+                portal.style.transform = "rotateY(0deg) rotateX(0deg)";
+            });
+        }
+
+
+        // ==========================================
+        // 4. SHOW / HIDE PASSWORD
+        // ==========================================
+
+        const password = document.getElementById("password");
+        const togglePassword = document.getElementById("togglePassword");
+
+        togglePassword.addEventListener("click", () => {
+            const isPassword = password.type === "password";
+
+            password.type = isPassword ? "text" : "password";
+            togglePassword.textContent = isPassword ? "HIDE" : "SHOW";
+        });
+
+
+        // ==========================================
+        // 5. FORM SUBMISSION
+        // ==========================================
+
+        const loginForm = document.getElementById("loginForm");
+        const submitBtn = document.getElementById("submitBtn");
+
+        loginForm.addEventListener("submit", () => {
+            if (!loginForm.checkValidity()) {
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.querySelector(".button-content").textContent =
+                "AUTHENTICATING...";
+        });
+
+
+        // ==========================================
+        // 6. INPUT CARD REACTION
+        // ==========================================
+
+        const formCard = document.getElementById("formCard");
+
+        document.querySelectorAll(".input-wrap input").forEach(input => {
+            input.addEventListener("focus", () => {
+                formCard.style.borderColor = "rgba(174, 134, 255, .42)";
+            });
+
+            input.addEventListener("blur", () => {
+                formCard.style.borderColor = "";
+            });
+        });
+
+    </script>
+
+</body>
+</html>
