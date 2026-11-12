@@ -11,20 +11,28 @@ class Config:
         "dev-secret-change-locally"
     )
 
+    
     DATABASE_URL = os.getenv(
         "DATABASE_URL",
         "sqlite:///smart_url_shortener.db"
     )
 
-    # Normalize PostgreSQL URLs supplied by hosting providers
+    # Use psycopg2 driver for PostgreSQL
     if DATABASE_URL.startswith("postgres://"):
         DATABASE_URL = DATABASE_URL.replace(
             "postgres://",
-            "postgresql://",
+            "postgresql+psycopg2://",
+            1
+        )
+    elif DATABASE_URL.startswith("postgresql://"):
+        DATABASE_URL = DATABASE_URL.replace(
+           "postgresql://",
+           "postgresql+psycopg2://",
             1
         )
 
     SQLALCHEMY_DATABASE_URI = DATABASE_URL
+
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
