@@ -47,8 +47,7 @@ def is_valid_url(value):
 
 @urls_bp.route("/")
 def home():
-    return "Smart URL Shortener is running!"
-
+    return redirect(url_for("auth.login"))
 
 @urls_bp.route("/create", methods=["POST"])
 @login_required
