@@ -890,107 +890,264 @@
         color: #a78aff;
       }
 
-      /* RESPONSIVE */
+      /* RESPONSIVE DESIGN */
 
+      /* Tablets and smaller laptops */
       @media (max-width: 950px) {
         .experience {
           grid-template-columns: 1fr;
-          max-width: 480px;
-          gap: 0;
+          width: 100%;
+          max-width: 520px;
+          gap: 28px;
+        }
+
+        .main {
+          min-height: auto;
+          padding: 25px 20px 80px;
         }
 
         .visual-section {
-          min-height: 420px;
+          min-height: 410px;
         }
 
         .portal {
-          transform: scale(0.8);
+          transform: scale(0.78);
         }
 
         .portal-caption {
           bottom: 0;
+          transform: none;
         }
 
         .tag-one {
           left: 0;
         }
+
         .tag-two {
           right: 0;
         }
+
         .tag-three {
-          bottom: 90px;
+          bottom: 100px;
+        }
+
+        .form-section {
+          width: 100%;
         }
       }
 
+      /* Mobile phones */
       @media (max-width: 520px) {
+        html,
+        body {
+          width: 100%;
+          overflow-x: hidden;
+        }
+
         .topbar {
-          padding: 0 20px;
-          height: 72px;
+          height: auto;
+          min-height: 72px;
+          padding: 14px 17px;
+          gap: 10px;
+        }
+
+        .brand {
+          gap: 8px;
+          flex-shrink: 0;
+        }
+
+        .brand-icon {
+          width: 36px;
+          height: 36px;
+          font-size: 20px;
+          border-radius: 12px;
         }
 
         .brand-name {
-          font-size: 19px;
-        }
-        .brand-icon {
-          width: 37px;
-          height: 37px;
+          font-size: 18px;
         }
 
         .top-right {
-          font-size: 11px;
-          gap: 6px;
+          font-size: 10px;
+          gap: 5px;
+          text-align: right;
+          justify-content: flex-end;
+          flex-wrap: wrap;
         }
 
         .main {
-          padding: 12px 15px 65px;
+          min-height: auto;
+          padding: 12px 14px 75px;
+          display: block;
         }
 
+        .experience {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          max-width: 100%;
+          gap: 22px;
+        }
+
+        /* Hero visual */
         .visual-section {
-          min-height: 330px;
+          width: 100%;
+          min-height: 365px;
+          overflow: visible;
         }
 
         .portal {
-          transform: scale(0.65);
-          margin-top: -20px;
+          width: 390px;
+          height: 390px;
+          flex-shrink: 0;
+          transform: scale(0.58);
+          margin-top: -30px;
         }
 
         .portal-caption {
-          bottom: -5px;
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          padding: 0 5px;
+          transform: none;
+          text-align: center;
         }
 
         .portal-caption h1 {
-          font-size: 34px;
+          font-size: clamp(27px, 7.5vw, 34px);
+          letter-spacing: -1.4px;
+          line-height: 1.2;
+          overflow-wrap: anywhere;
         }
 
         .portal-caption p {
+          margin-top: 9px;
           font-size: 12px;
+          line-height: 1.6;
         }
 
+        /* Floating feature tags */
         .floating-tag {
-          padding: 9px 11px;
-          font-size: 10px;
+          padding: 8px 10px;
+          font-size: 9px;
+          border-radius: 11px;
+          max-width: 58%;
+        }
+
+        .floating-tag strong {
+          font-size: 11px;
+          line-height: 1.4;
         }
 
         .tag-one {
-          top: 28px;
+          top: 15px;
+          left: 0;
         }
+
         .tag-two {
-          top: 70px;
+          top: 65px;
+          right: 0;
         }
+
         .tag-three {
-          bottom: 75px;
+          bottom: 100px;
+          left: 0;
+        }
+
+        /* Form section */
+        .form-section {
+          width: 100%;
+          margin-top: 8px;
         }
 
         .form-card {
-          padding: 29px 22px;
-          border-radius: 21px;
+          width: 100%;
+          padding: 27px 19px;
+          border-radius: 20px;
         }
 
         .form-heading {
-          font-size: 31px;
+          margin-top: 19px;
+          font-size: clamp(28px, 8vw, 32px);
+          line-height: 1.18;
+          letter-spacing: -1.2px;
         }
+
         .form-subtitle {
           font-size: 12px;
+          line-height: 1.7;
+        }
+
+        .register-form {
+          margin-top: 23px;
+        }
+
+        .field {
+          margin-bottom: 16px;
+        }
+
+        .field label {
+          font-size: 12px;
+        }
+
+        .input-wrap input {
+          height: 51px;
+          font-size: 13px;
+        }
+
+        .submit-btn {
+          height: 52px;
+        }
+
+        .form-footer {
+          font-size: 11px;
+        }
+
+        .security-note {
+          font-size: 9px;
+          flex-wrap: wrap;
+        }
+
+        .bottom-note {
+          bottom: 15px;
+          padding: 0 12px;
+          font-size: 9px;
+        }
+
+        .cursor-glow {
+          display: none;
+        }
+      }
+
+      /* Very small phones */
+      @media (max-width: 360px) {
+        .topbar {
+          padding: 12px 11px;
+        }
+
+        .brand-name {
+          font-size: 16px;
+        }
+
+        .top-right {
+          font-size: 9px;
+        }
+
+        .visual-section {
+          min-height: 335px;
+        }
+
+        .portal {
+          transform: scale(0.51);
+        }
+
+        .form-card {
+          padding: 24px 15px;
+        }
+
+        .floating-tag strong {
+          font-size: 10px;
         }
       }
 
